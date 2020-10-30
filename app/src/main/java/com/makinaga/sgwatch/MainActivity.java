@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
         super.onResume();
 
         final Handler handler = new Handler();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
@@ -63,20 +64,28 @@ public class MainActivity extends Activity {
 
     @Override
     public void onPause() {
-        timer.cancel();
+        //timer.cancel();
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                timer.cancel();
+                timer.purge();
+            }
+        });
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        timer.cancel();
-        timer.purge();
+        //timer.cancel();
+        //timer.purge();
         super.onDestroy();
     }
 
     @Override
     protected void onStop() {
-        timer.cancel();
+
         super.onStop();
     }
 
